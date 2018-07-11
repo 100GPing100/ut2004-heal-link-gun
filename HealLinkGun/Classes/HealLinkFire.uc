@@ -310,6 +310,7 @@ simulated function ModeTick(float dt)
 			if (!LinkedVehicle.HealDamage(AdjustedDamage, Instigator.Controller, DamageType))
 				LinkGun.ConsumeAmmo(ThisModeNum, -AmmoPerFire);
 		}
+		// team mate healing
 		if ( LockedPawn != None && bDoHit )
 		{
 			Pawn(Other).GiveHealth((HealingDamage / 4) *(1.5*Linkgun.Links+1) * instigator.DamageScaling, GetHealMax(Pawn(Other)));
@@ -371,23 +372,13 @@ simulated function ModeTick(float dt)
     bStartFire = false;
     bDoHit = false;
 }
-/** For later AI Interface update for beeing able to heal team mates.
-function bool CanHeal(Actor Other)
-{
-	if (DestroyableObjective(Other) != None && DestroyableObjective(Other).LinkHealMult > 0)
-		return true;
-	if (Vehicle(Other) != None && Vehicle(Other).LinkHealMult > 0)
-		return true;
-
-	return false;
-}**/
 
 defaultproperties
 {
 	 AmmoClass=class'HealLinkAmmo'
 	 AmmoPerFire=0
 	 DamageType=class"DamTypeHealLinkShaft"
-	 
 	 Damage=0			//Set to 0 so it does not deals any damage.
+	 
 	 HealingDamage=10	//This int variable was added so it would heal with Damage set to 0.
 }
