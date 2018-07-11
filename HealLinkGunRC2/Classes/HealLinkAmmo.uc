@@ -8,9 +8,7 @@ class HealLinkAmmo extends LinkAmmo;
 
 defaultproperties
 {
-	 ItemName="Heal Link Gun Ammo"
-	 
-	 PickupClass=class'HealLinkAmmoPickup'
-	 MaxAmmo=1
-	 InitialAmount=1
+	ItemName="Heal Link Gun Ammo"
+
+	PickupClass=class'HealLinkAmmoPickup'
 }
