@@ -1,41 +1,38 @@
 //============================================================
-// HealLinkGun (Only heals vehicles and node, does not deals damage)
+// HealLinkGun.uc (Only heals vehicles and node, does not deals damage)
 // Credits: 100GPing100(zeluis)
 // Copytight zeluis, 2011
 // Contact: zeluis.100@gmail.com
 //============================================================
 class HealLinkGun extends LinkGun;
 
-simulated event RenderOverlays( Canvas Canvas )
+simulated function UpdateLinkColor( LinkAttachment.ELinkColor Color )
 {
-	if (((FireMode[1] != None) || (FireMode[0] != None)) && (!FireMode[1].bIsFiring || !FireMode[0].bIsFiring) && (ThirdPersonActor != None) )
+	if ( FireMode[1] != None || FireMode[0] != None)
+		LinkFire(FireMode[1]).UpdateLinkColor( Color );
+		LinkFire(FireMode[0]).UpdateLinkColor( Color );
+
+	if ( Mesh == OldMesh )	// no support for old mesh
+		return;
+
+	switch ( Color )
 	{
-		if ( Links > 0 )
-			LinkAttachment(ThirdPersonActor).SetLinkColor( LC_Gold );
-		else
-			LinkAttachment(ThirdPersonActor).SetLinkColor( LC_Green );
+		case LC_Green	:	Skins[0] = material'LinkgunShader';
+							Skins[1] = material'PowerPulseShader';
+							break;
+		case LC_Red		: 	Skins[0] = material'LinkgunRedShader';
+							Skins[1] = material'PowerPulseShaderRed';
+							break;
+		case LC_Blue	: 	Skins[0] = material'LinkgunBlueShader';
+							Skins[1] = material'PowerPulseShaderBlue';
+							break;
+		case LC_Gold	:	Skins[0] = material'LinkgunYellowShader';
+							Skins[1] = material'PowerPulseShaderYellow';
+							break;
 	}
-	super.RenderOverlays( Canvas );
 }
 
 // AI Interface.
-function bool CanHeal(Actor Other)
-{
-	local Pawn P;
-	
-	if (DestroyableObjective(Other) != None && DestroyableObjective(Other).LinkHealMult > 0)
-		return true;
-	if (Vehicle(Other) != None && Vehicle(Other).LinkHealMult > 0)
-		return true;
-	/*if (B.Target.TeamLink(B.GetTeamNum()))
-		return true;*/
-	P = Pawn(Other);
-    if ( (P != None) && (P.Health < P.HealthMax) )
-		return true;
-
-	return false;
-}
-
 function byte BestMode()
 {
 	local bot B;
@@ -43,7 +40,7 @@ function byte BestMode()
 
 	B = Bot(Instigator.Controller);
 	if ( B == None )
-		return 0;
+		return 1; // return 0;
 
 	if ( ( (DestroyableObjective(B.Squad.SquadObjective) != None && B.Squad.SquadObjective.TeamLink(B.GetTeamNum()))
 		|| (B.Squad.SquadObjective == None && DestroyableObjective(B.Target) != None && B.Target.TeamLink(B.GetTeamNum())) )
@@ -68,14 +65,14 @@ function float GetAIRating()
 	local Bot B;
 	local DestroyableObjective O;
 	local Vehicle V;
-
+	
 	B = Bot(Instigator.Controller);
 	if ( B == None )
 		return AIRating;
-
+		
 	if ( (PlayerController(B.Squad.SquadLeader) != None)
 		&& (B.Squad.SquadLeader.Pawn != None)
-		/*&& (LinkGun(B.Squad.SquadLeader.Pawn.Weapon) != None)*/ )
+		&& (LinkGun(B.Squad.SquadLeader.Pawn.Weapon) != None) )
 		return 1.2;
 
 	V = B.Squad.GetLinkVehicle(B);
@@ -83,11 +80,6 @@ function float GetAIRating()
 		&& (VSize(Instigator.Location - V.Location) < 1.5 * LinkFire(FireMode[1]).TraceRange)
 		&& (V.Health < V.HealthMax) && (V.LinkHealMult > 0) )
 		return 1.2;
-
-	/*if ( (B.Squad.SquadLeader.Pawn != None)
-		&& (VSize(Instigator.Location - B.Squad.SquadLeader.Pawn.Location) < 1.5 * LinkFire(FireMode[1]).TraceRange)
-		&& (B.Squad.SquadLeader.Pawn.Health < B.Squad.SquadLeader.Pawn.HealthMax) )
-		return 1.3;*/
 
 	if ( Vehicle(B.RouteGoal) != None && B.Enemy == None && VSize(Instigator.Location - B.RouteGoal.Location) < 1.5 * LinkFire(FireMode[1]).TraceRange
 	     && Vehicle(B.RouteGoal).TeamLink(B.GetTeamNum()) )
@@ -98,43 +90,15 @@ function float GetAIRating()
 	     && VSize(Instigator.Location - O.Location) < 1.1 * LinkFire(FireMode[1]).TraceRange && B.LineOfSightTo(O) )
 		return 1.2;
 		
-	if ( B.LineOfSightTo(B.Enemy) && (VSize(Instigator.Location - B.Location) < 1.1 * LinkFire(FireMode[1]).TraceRange ||
-		 VSize(Instigator.Location - B.Location) > 1.1 * LinkFire(FireMode[1]).TraceRange))
-		return 0.0; // make it 0.0 so bots don't use this weapon against enemies.
-		 
-	if ( B.Squad.SquadLeader.Pawn != None && B.Enemy == None && B.LineOfSightTo(B.Squad.SquadLeader.Pawn)
-		 && (B.Squad.SquadLeader.Pawn.Health < B.Squad.SquadLeader.Pawn.HealthMax) 
-		 && ( VSize(Instigator.Location - B.Squad.SquadLeader.Pawn.Location) < 1.5 * LinkFire(FireMode[1]).TraceRange) )
-		 return 1.2;
+	if ( B.LineOfSightTo(B.Enemy) && (VSize(Instigator.Location - B.Enemy.Location) < 1.1 * LinkFire(FireMode[1]).TraceRange ||
+		 VSize(Instigator.Location - B.Enemy.Location) > 1.1 * LinkFire(FireMode[1]).TraceRange) )
+		return 0.0; // make it 0.0 so bots do not use this weapon against enemies.
+	
+	if ( B.LineOfSightTo(O) && (VSize(Instigator.Location - O.Location) < 1.1 * LinkFire(FireMode[1]).TraceRange || 
+		 VSize(Instigator.Location - O.Location) > 1.1 * LinkFire(FireMode[1]).TraceRange))
+		return 0.0; // make it 0.0 so bots do not use this weapon against enemie nodes.
 
 	return AIRating * FMin(Pawn(Owner).DamageScaling, 1.5);
-}
-
-simulated function bool StartFire(int Mode)
-{
-	local SquadAI S;
-	local Bot B;
-	local vector AimDir;
-
-	if ( (Role == ROLE_Authority) && (PlayerController(Instigator.Controller) != None) && (UnrealTeamInfo(Instigator.PlayerReplicationInfo.Team) != None))
-	{
-		S = UnrealTeamInfo(Instigator.PlayerReplicationInfo.Team).AI.GetSquadLedBy(Instigator.Controller);
-		if ( S != None )
-		{
-			AimDir = vector(Instigator.Controller.Rotation);
-			for ( B=S.SquadMembers; B!=None; B=B.NextSquadMember )
-				if ( (HoldSpot(B.GoalScript) == None)
-					&& (B.Pawn != None)
-					//&& (LinkGun(B.Pawn.Weapon) != None)
-					&& B.Pawn.Weapon.FocusOnLeader(true)
-					&& ((AimDir dot Normal(B.Pawn.Location - Instigator.Location)) < 0.9) )
-				{
-					B.Focus = Instigator;
-					B.FireWeaponAt(Instigator);
-				}
-		}
-	}
-	return Super.StartFire(Mode);
 }
 
 function bool FocusOnLeader(bool bLeaderFiring)
@@ -158,12 +122,6 @@ function bool FocusOnLeader(bool bLeaderFiring)
 			LeaderPawn = V;
 			bLeaderFiring = (LeaderPawn.Health < LeaderPawn.HealthMax) && (V.LinkHealMult > 0)
 							&& ((B.Enemy == None) || V.bKeyVehicle);
-		}
-		else
-		if ( LeaderPawn != None)
-		{
-			LeaderPawn = B.Squad.SquadLeader.Pawn;
-			bLeaderFiring = (LeaderPawn.Health < LeaderPawn.HealthMax) && (B.Enemy == None);
 		}
 	}
 	if ( LeaderPawn == None )
@@ -204,7 +162,7 @@ defaultproperties
 	 FireModeClass(0)=HealLinkFire
 	 FireModeClass(1)=HealLinkFire
 	 PickupClass=class'HealLinkGunPickup'
-	 InventoryGroup=1
+	 InventoryGroup=5
 	 
 	 AIRating=+0.50
 	 CurrentRating=+0.50

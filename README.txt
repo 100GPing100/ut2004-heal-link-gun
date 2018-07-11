@@ -1,17 +1,47 @@
-This is the Heal Link Gun Beta 5.1, it deals no damage, only heals vehicles, nodes and team mates.
+This is the Heal Link Gun Beta 6, it deals no damage, only heals vehicles, nodes and team mates.
 
-Copyright:
--Barionyx: idea for a link gun that would only heal vehicles and nodes and wouldn't deal no damage;
--FewPosts: Idea to for the gun to also heal team mates;
--100GPing100(zeluis): coding.
+============
+Copyright
+============
+@Barionyx: idea for a link gun that would only heal vehicles and nodes and wouldn't deal no damage.
+@FewPosts: Idea to for the gun to also heal team mates.
+@100GPing100(zeluis): Coding.
 
-Installation:
+============
+Installation
+============
 -Copy the "System" folder to your UT2004 folder and replace all. Start a game and in the 
-mutator tab activate the one called "Heal Link Gun" and have fun.
+mutator tab activate the mutator called "Heal Link Gun" and have fun.
 
-Archive:
-Name: HealLinkGunB5.1
-Folders: System; HealLinkGun.
+============
+Archive
+============
+Name: HealLinkGunB6
+Folders: System
+
+============
+Changes
+============
+
+Changes in Beta 6:
+
+-Team mates healing ammount changed to a static value of 10.
+*This value will now not be changed by link chains.
+*This value is configurable in the mutator properties page.
+
+-Fixed a bug that would keep the Link Gun in the game when starting with the Heal Link Gun.
+
+-Players can now spawn with the Heal Link Gun or pick it up.
+*This can be changed in the mutator's properties.
+*When spawning with the Heal Link Gun the previously places were the Link Gun spawned will not have it, weapon bases are removed and the weapon is removed form weapon lockers, Link Gun Ammo is also removed.
+
+-Fixed a bug that would link the gun to dead bodies.
+
+-The Heal Link Gun can now use ammo or have infinit ammo.
+*This can be changed in the mutator's properties.
+*When using ammo, there will be ammo pickups were the Link Gun's ones were previously.
+*When not using ammo the old Link Gun ammo pickups will be removed.
+
 
 NOTE: YOU MAY REDISTRIBUTE THIS FILE, BUT YOU MAY NOT CHANGE THE .ZIP FILE AND YOU MAY 
 NOT SELL THE CONTENT FOR MONEY.

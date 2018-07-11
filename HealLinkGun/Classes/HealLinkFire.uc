@@ -1,5 +1,5 @@
 //============================================================
-// HealLinkFire (Fire mode of the heal link gun)
+// HealLinkFire.uc (Fire mode of the Link Gun Medic)
 // Credits: 100GPing100(zeluis)
 // Copytight zeluis, 2011
 // Contact: zeluis.100@gmail.com
@@ -19,12 +19,12 @@ function bool IsLinkable(Actor Other)
     if ( Other.IsA('Pawn') && Other.bProjTarget )
     {
         P = Pawn(Other);
-        if ( P.Weapon == None ) //if ( P.Weapon == None || !P.Weapon.IsA('LinkGun') )
+        if ( P.Weapon == None) // || !P.Weapon.IsA('LinkGun') )
 		{
 			if ( Vehicle(P) != None )
 				return P.TeamLink( Instigator.GetTeamNum() );
 
-            return true;
+            return false;
 		}
 
         // pro-actively prevent link cycles from happening
@@ -313,7 +313,7 @@ simulated function ModeTick(float dt)
 		// team mate healing
 		if ( LockedPawn != None && bDoHit )
 		{
-			Pawn(Other).GiveHealth((HealingDamage / 4) *(1.5*Linkgun.Links+1) * instigator.DamageScaling, GetHealMax(Pawn(Other)));
+			Pawn(Other).GiveHealth(HealingDamage * instigator.DamageScaling, GetHealMax(Pawn(Other)));
 		}
 		LinkGun(Weapon).Linking = (LockedPawn != None) || bIsHealingObjective;
 
