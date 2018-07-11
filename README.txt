@@ -1,4 +1,4 @@
-This is the Heal Link Gun Beta 6, it deals no damage, only heals vehicles, nodes and team mates.
+This is the Heal Link Gun Release Candidate 1, it deals no damage, only heals vehicles, nodes and team mates.
 
 ============
 Copyright
@@ -16,12 +16,21 @@ mutator tab activate the mutator called "Heal Link Gun" and have fun.
 ============
 Archive
 ============
-Name: HealLinkGunB6
-Folders: System
+Name: HealLinkGunRC1
+Folders: System, HealLinkGun
 
 ============
 Changes
 ============
+
+Release Candidate 1 Changes:
+
+-Default healing ammount changed from 10 to 7.
+-The Heal Link Gun weapon slot is now configurable.
+*You can configure this in the mutators properties page.
+*Weapon slot can be 1, 2, 3, 4, 5, 6, 7, 8, 9 and 0.
+*You first select the button that activates costum weapon slot and then you choose the weapon slot.
+
 
 Changes in Beta 6:
 

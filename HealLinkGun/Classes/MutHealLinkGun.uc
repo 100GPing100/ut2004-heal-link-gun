@@ -9,6 +9,9 @@ class MutHealLinkGun extends Mutator;
 var config int HealDamage_config;
 var config bool StartWithWeapon_config;
 var config bool UseAmmo_config;
+var config bool UseCostumWeaponSlot_Config;
+var config int CostumWeaponSlot_Config;
+
 
 function bool CheckReplacement(Actor Other, out byte bSuperRelevant)
 {
@@ -105,7 +108,27 @@ simulated function BeginPlay()
 {
 	Super.BeginPlay();
 	
-	class'HealLinkGun.HealLinkFire'.default.HealingDamage=HealDamage_config;
+	class'HealLinkGun.HealLinkFire'.default.HealingDamage = HealDamage_config;
+	if ( CostumWeaponSlot_Config == 1 && UseCostumWeaponSlot_Config == True )
+		class'HealLinkGun.HealLinkGun'.default.InventoryGroup = 1;
+	if ( CostumWeaponSlot_Config == 2 && UseCostumWeaponSlot_Config == True )
+		class'HealLinkGun.HealLinkGun'.default.InventoryGroup = 2;
+	if ( CostumWeaponSlot_Config == 3 && UseCostumWeaponSlot_Config == True )
+		class'HealLinkGun.HealLinkGun'.default.InventoryGroup = 3;
+	if ( CostumWeaponSlot_Config == 4 && UseCostumWeaponSlot_Config == True )
+		class'HealLinkGun.HealLinkGun'.default.InventoryGroup = 4;
+	if ( CostumWeaponSlot_Config == 5 && UseCostumWeaponSlot_Config == True )
+		class'HealLinkGun.HealLinkGun'.default.InventoryGroup = 5;
+	if ( CostumWeaponSlot_Config == 6 && UseCostumWeaponSlot_Config == True )
+		class'HealLinkGun.HealLinkGun'.default.InventoryGroup = 6;
+	if ( CostumWeaponSlot_Config == 7 && UseCostumWeaponSlot_Config == True )
+		class'HealLinkGun.HealLinkGun'.default.InventoryGroup = 7;
+	if ( CostumWeaponSlot_Config == 8 && UseCostumWeaponSlot_Config == True )
+		class'HealLinkGun.HealLinkGun'.default.InventoryGroup = 8;
+	if ( CostumWeaponSlot_Config == 9 && UseCostumWeaponSlot_Config == True )
+		class'HealLinkGun.HealLinkGun'.default.InventoryGroup = 9;
+	if ( CostumWeaponSlot_Config == 0 && UseCostumWeaponSlot_Config == True )
+		class'HealLinkGun.HealLinkGun'.default.InventoryGroup = 0;
 }
 
 static function FillPlayInfo(PlayInfo PlayInfo)
@@ -114,6 +137,8 @@ static function FillPlayInfo(PlayInfo PlayInfo)
 	PlayInfo.AddSetting(default.RulesGroup, "HealDamage_config", "Heal Ammount:", 0, 1, "Text", "8;1:15");
 	PlayInfo.AddSetting(default.RulesGroup, "StartWithWeapon_config", "Start with Weapon", 0, 1, "Check", "8;1:15");
 	PlayInfo.AddSetting(default.RulesGroup, "UseAmmo_config", "Use Ammo", 0, 1, "Check", "8;1:15");
+	PlayInfo.AddSetting(default.RulesGroup, "UseCostumWeaponSlot_Config", "Use Costum Weapon Slot", 0, 1, "Check");
+	PlayInfo.AddSetting(default.RulesGroup, "CostumWeaponSlot_Config", "Costum Weapon Slot:", 0, 1, "Select", "1;1;2;2;3;3;4;4;5;5;6;6;7;7;8;8;9;9;0;0");
 }
 
 static event string GetDescriptionText(String PropName)
@@ -124,6 +149,10 @@ static event string GetDescriptionText(String PropName)
 		return "If set to True players will spawn with the Heal Link Gun, if set to False they will have to pick it up. Default = True";
 	if(PropName=="UseAmmo_config")
 		return "If set to True the Heal Link Gun will use ammo when firing, if set to False the weapon will have infinit ammo and ammo pickups for this weapon will be removed. Default = False";
+	if(PropName=="UseCostumWeaponSlot_Config")
+		return "If set to True will use the value set in 'Costum Weapon Slot' fot the slot of the weapon, False will use slot 5. (Default = False)";
+	if(PropName=="CostumWeaponSlot_Config")
+		return "Slot number for the Heal Link Gun to use. You need to have 'Use Costum Weapon Slot' set to True.";
 	else
 		return Super.GetDescriptionText(PropName);
 }
@@ -136,7 +165,7 @@ defaultproperties
 
 	bAddToServerPackages=True
 
-	HealDamage_config=10
+	HealDamage_config=7
 	StartWithWeapon_config=True
 	UseAmmo_config=False
 }
