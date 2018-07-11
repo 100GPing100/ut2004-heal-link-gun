@@ -1,5 +1,5 @@
 //============================================================
-// HealLinkGunRC2.uc (Only heals vehicles and node, does not deals damage)
+// Heal_Link_Gun.uc (Only heals vehicles and node, does not deals damage)
 // Credits: 100GPing100(zeluis)
 // Copytight zeluis, 2011
 // Contact: zeluis.100@gmail.com
@@ -26,8 +26,8 @@ simulated function UpdateLinkColor( LinkAttachment.ELinkColor Color )
 		case LC_Blue	: 	Skins[0] = material'LinkgunBlueShader';
 							Skins[1] = material'PowerPulseShaderBlue';
 							break;
-		case LC_Gold	:	Skins[0] = material'LinkgunYellowShader';
-							Skins[1] = material'PowerPulseShaderYellow';
+		case LC_Gold	:	Skins[0] = material'LinkgunShader'; // gold changed to green because there is no damage amplification
+							Skins[1] = material'PowerPulseShader';
 							break;
 	}
 }
@@ -94,7 +94,7 @@ function float GetAIRating()
 		 VSize(Instigator.Location - B.Enemy.Location) > 1.1 * LinkFire(FireMode[1]).TraceRange) )
 		return 0.0; // make it 0.0 so bots do not use this weapon against enemies.
 	
-	// next if may need to be fixed, since I don't see many bots using the weapon to heal their nodes.
+	// next may need to be fixed, since I don't see many bots using the weapon to heal their nodes.
 	if ( B.LineOfSightTo(O) && (VSize(Instigator.Location - O.Location) < 1.1 * LinkFire(FireMode[1]).TraceRange || 
 		 VSize(Instigator.Location - O.Location) > 1.1 * LinkFire(FireMode[1]).TraceRange))
 		return 0.0; // make it 0.0 so bots do not use this weapon against enemie nodes.
@@ -152,21 +152,21 @@ function bool FocusOnLeader(bool bLeaderFiring)
 
 function float SuggestAttackStyle()
 {
-	return 0.0; // set to 0.0 so bots don't use this weapon to attack.
+	return 0.0;
 }
 
 defaultproperties
 {
 	ItemName="Heal Link Gun"
-	Description="Brionyx used a difrent weapon set, and he wanted a Link Gun that wouldn't damage, just heal, so he headed to the forums and asked if this existed. After some time 100GPing100 (zeluis) saw the thread and said that he could create the weapon for him. After the first realease FewPosts happeared on the forums and sugested us to make the weapon heal team mates too, we accepted and that is why this weapon exists."
+	Description="Brionyx used a difrent weapon set, and he wanted a Link Gun that wouldn't damage, just heal, so he headed to the forums and asked if this existed. After some time 100GPing100 (zeluis) saw the thread and said that he could create the weapon for him. After the first realease FewPosts happeared on the forums and sugested us to make the weapon heal team mates too, we accepted and that is why this weapon now exists."
 
 	FireModeClass(0)=HealLinkFire
 	FireModeClass(1)=HealLinkFire
 	PickupClass=class'HealLinkGunPickup'
-	InventoryGroup=5
+	InventoryGroup=+5
 
-	AIRating=+0.50
-	CurrentRating=+0.50
+	AIRating=+0.47
+	CurrentRating=+0.47
 
-	Priority=2
+	Priority=+1
 }

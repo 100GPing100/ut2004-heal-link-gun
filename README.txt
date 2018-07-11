@@ -1,4 +1,6 @@
-This is the Heal Link Gun Release Candidate 2, it is a weapon that deals no damage, only heals vehicles, nodes and team mates.
+This is the Heal Link Gun, it is a weapon that deals no damage, only heals vehicles, nodes and team mates.
+
+Note: Only RC2 and this version (Final Release) are online compatible.
 
 ============
 Copyright
@@ -11,17 +13,24 @@ Copyright
 Installation
 ============
 -Copy the "System" folder to your UT2004 folder and replace all. Start a game and in the 
-mutator tab activate the mutator called "Heal Link Gun" and have fun.
+mutator tab activate the mutator called "Heal Link Gun".
+
+Have Fun!
 
 ============
 Archive
 ============
-Name: HealLinkGunRC2
-Folders: System, HealLinkGun
+Name: HealLinkGun_Final
+Folders: System, Heal_Link_Gun
 
 ============
 Changes
 ============
+Final Release Changes:
+-Cleaned up the code.
+*Removed unecessary lines.
+
+
 Release Candidate 2 Changes:
 -Fixed Ammo system.
 *Weapon now uses or not ammo correctly depending on the mutator's settings.

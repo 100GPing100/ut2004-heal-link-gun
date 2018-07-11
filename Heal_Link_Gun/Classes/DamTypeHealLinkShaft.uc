@@ -1,14 +1,12 @@
 //============================================================
-// HealLinkGunPickup.uc (Heal Link Gun pickup class)
+// DamTypeLinkShaft.uc (Damage type for the Link Gun Medic)
 // Credits: 100GPing100(zeluis)
 // Copytight zeluis, 2011
 // Contact: zeluis.100@gmail.com
 //============================================================
-class HealLinkGunPickup extends LinkGunPickup;
+class DamTypeHealLinkShaft extends DamTypeLinkShaft;
 
 defaultproperties
 {
-	 InventoryType=class'HealLinkGun'
-	 
-	 PickupMessage="You got the Heal Link Gun."
+	WeaponClass=class'HealLinkGun'
 }

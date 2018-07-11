@@ -375,7 +375,7 @@ simulated function ModeTick(float dt)
 
 defaultproperties
 {
-	//AmmoClass=class'HealLinkGunRC2.HealLinkAmmo'
+	//AmmoClass=class'Heal_Link_Gun.HealLinkAmmo'
 	DamageType=class"DamTypeHealLinkShaft"
 	Damage=0			//Set to 0 so it does not deals any damage.
 

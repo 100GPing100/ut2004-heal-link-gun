@@ -21,7 +21,7 @@ function bool CheckReplacement(Actor Other, out byte bSuperRelevant)
 	if (UseAmmo_config == True)
 	{
 		//if (LinkAmmoPickup(Other) != None)
-		//	return ReplaceWith(Other, "HealLinkGunRC2.HealLinkAmmoPickup"); //COMPATIBILITY
+		//	return ReplaceWith(Other, "Heal_Link_Gun.HealLinkAmmoPickup"); //COMPATIBILITY
 			
 		if (StartWithWeapon_config == True)
 		{
@@ -36,7 +36,7 @@ function bool CheckReplacement(Actor Other, out byte bSuperRelevant)
 			else if (WeaponLocker(Other) != None)
 			{
 				L = WeaponLocker(Other);
-				for (i = 0; i < L.Weapons.Length; i++) // FIX WEAPON LOCKER REPLACEMENT, '<' should be '>'
+				for (i = 0; i < L.Weapons.Length; i++)
 					if (L.Weapons[i].WeaponClass == class'xWeapons.LinkGun')
 					L.Weapons[i].WeaponClass = None;
 			}
@@ -44,7 +44,7 @@ function bool CheckReplacement(Actor Other, out byte bSuperRelevant)
 			
 			if (Other.IsA('xPawn'))
 			{
-				xPawn(Other).RequiredEquipment[2] = "HealLinkGunRC2.HealLinkGun"; //COMPATIBILITY!!
+				xPawn(Other).RequiredEquipment[2] = "Heal_Link_Gun.HealLinkGun"; //COMPATIBILITY!!
 			}
 			return true;
 		}
@@ -61,7 +61,7 @@ function bool CheckReplacement(Actor Other, out byte bSuperRelevant)
 			else if (WeaponLocker(Other) != None)
 			{
 				L = WeaponLocker(Other);
-				for (i = 0; i < L.Weapons.Length; i++) // FIX WEAPON LOCKER REPLACEMENT, '<' should be '>'
+				for (i = 0; i < L.Weapons.Length; i++)
 					if (L.Weapons[i].WeaponClass == class'xWeapons.LinkGun')
 						L.Weapons[i].WeaponClass = class'HealLinkGun';
 			}
@@ -74,7 +74,7 @@ function bool CheckReplacement(Actor Other, out byte bSuperRelevant)
 	{
 		if ( (string(Other.Class) == "XWeapons.LinkAmmoPickup") )
 		{
-			ReplaceWith( Other, "HealLinkGunRC2.HealLinkAmmoPickup_NoAmmo"); //COMPATIBILITY!!
+			ReplaceWith( Other, "Heal_Link_Gun.HealLinkAmmoPickup_NoAmmo"); //COMPATIBILITY!!
 			Other.Destroy();
 			return true;
 		}
@@ -92,7 +92,7 @@ function bool CheckReplacement(Actor Other, out byte bSuperRelevant)
 			else if (WeaponLocker(Other) != None)
 			{
 				L = WeaponLocker(Other);
-				for (i = 0; i < L.Weapons.Length; i++) // FIX WEAPON LOCKER REPLACEMENT, '<' should be '>'
+				for (i = 0; i < L.Weapons.Length; i++)
 					if (L.Weapons[i].WeaponClass == class'xWeapons.LinkGun')
 					L.Weapons[i].WeaponClass = None;
 			}
@@ -100,7 +100,7 @@ function bool CheckReplacement(Actor Other, out byte bSuperRelevant)
 			
 			if (Other.IsA('xPawn'))
 			{
-				xPawn(Other).RequiredEquipment[2] = "HealLinkGunRC2.HealLinkGun_NoAmmo"; //COMPATIBILITY!!
+				xPawn(Other).RequiredEquipment[2] = "Heal_Link_Gun.HealLinkGun_NoAmmo"; //COMPATIBILITY!!
 			}
 			return true;
 		}
@@ -111,15 +111,16 @@ function bool CheckReplacement(Actor Other, out byte bSuperRelevant)
 				if (xWeaponBase(Other).WeaponType == class'xWeapons.LinkGun')
 					xWeaponBase(Other).WeaponType = class'HealLinkGun_NoAmmo';
 			}
+			
 			else if ( WeaponPickup(Other) != None)
 			{
 			}
 			else if (WeaponLocker(Other) != None)
 			{
 				L = WeaponLocker(Other);
-				for (i = 0; i < L.Weapons.Length; i++) // FIX WEAPON LOCKER REPLACEMENT, '<' should be '>'
+				for (i = 0; i < L.Weapons.Length; i++)
 					if (L.Weapons[i].WeaponClass == class'xWeapons.LinkGun')
-						L.Weapons[i].WeaponClass = class'HealLinkGunRC2.HealLinkGun_NoAmmo'; //COMPATIBILITY!!
+						L.Weapons[i].WeaponClass = class'Heal_Link_Gun.HealLinkGun_NoAmmo'; //COMPATIBILITY!!
 			}
 			bSuperRelevant = 0;
 			
@@ -133,27 +134,27 @@ simulated function BeginPlay()
 {
 	Super.BeginPlay();
 	
-	class'HealLinkGunRC2.HealLinkFire'.default.HealingDamage = HealDamage_config;
+	class'Heal_Link_Gun.HealLinkFire'.default.HealingDamage = HealDamage_config;
 	if ( CostumWeaponSlot_config == 1 && UseCostumWeaponSlot_config == True )
-		class'HealLinkGunRC2.HealLinkGun'.default.InventoryGroup = 1;
+		class'Heal_Link_Gun.HealLinkGun'.default.InventoryGroup = 1;
 	if ( CostumWeaponSlot_config == 2 && UseCostumWeaponSlot_config == True )
-		class'HealLinkGunRC2.HealLinkGun'.default.InventoryGroup = 2;
+		class'Heal_Link_Gun.HealLinkGun'.default.InventoryGroup = 2;
 	if ( CostumWeaponSlot_config == 3 && UseCostumWeaponSlot_config == True )
-		class'HealLinkGunRC2.HealLinkGun'.default.InventoryGroup = 3;
+		class'Heal_Link_Gun.HealLinkGun'.default.InventoryGroup = 3;
 	if ( CostumWeaponSlot_config == 4 && UseCostumWeaponSlot_config == True )
-		class'HealLinkGunRC2.HealLinkGun'.default.InventoryGroup = 4;
+		class'Heal_Link_Gun.HealLinkGun'.default.InventoryGroup = 4;
 	if ( CostumWeaponSlot_config == 5 && UseCostumWeaponSlot_config == True )
-		class'HealLinkGunRC2.HealLinkGun'.default.InventoryGroup = 5;
+		class'Heal_Link_Gun.HealLinkGun'.default.InventoryGroup = 5;
 	if ( CostumWeaponSlot_config == 6 && UseCostumWeaponSlot_config == True )
-		class'HealLinkGunRC2.HealLinkGun'.default.InventoryGroup = 6;
+		class'Heal_Link_Gun.HealLinkGun'.default.InventoryGroup = 6;
 	if ( CostumWeaponSlot_config == 7 && UseCostumWeaponSlot_config == True )
-		class'HealLinkGunRC2.HealLinkGun'.default.InventoryGroup = 7;
+		class'Heal_Link_Gun.HealLinkGun'.default.InventoryGroup = 7;
 	if ( CostumWeaponSlot_config == 8 && UseCostumWeaponSlot_config == True )
-		class'HealLinkGunRC2.HealLinkGun'.default.InventoryGroup = 8;
+		class'Heal_Link_Gun.HealLinkGun'.default.InventoryGroup = 8;
 	if ( CostumWeaponSlot_config == 9 && UseCostumWeaponSlot_config == True )
-		class'HealLinkGunRC2.HealLinkGun'.default.InventoryGroup = 9;
+		class'Heal_Link_Gun.HealLinkGun'.default.InventoryGroup = 9;
 	if ( CostumWeaponSlot_config == 0 && UseCostumWeaponSlot_config == True )
-		class'HealLinkGunRC2.HealLinkGun'.default.InventoryGroup = 0;
+		class'Heal_Link_Gun.HealLinkGun'.default.InventoryGroup = 0;
 }
 
 static function FillPlayInfo(PlayInfo PlayInfo)
