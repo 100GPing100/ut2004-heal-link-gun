@@ -6,6 +6,18 @@
 //============================================================
 class HealLinkGun extends LinkGun;
 
+simulated event RenderOverlays( Canvas Canvas )
+{
+	if (((FireMode[1] != None) || (FireMode[0] != None)) && (!FireMode[1].bIsFiring || !FireMode[0].bIsFiring) && (ThirdPersonActor != None) )
+	{
+		if ( Links > 0 )
+			LinkAttachment(ThirdPersonActor).SetLinkColor( LC_Gold );
+		else
+			LinkAttachment(ThirdPersonActor).SetLinkColor( LC_Green );
+	}
+	super.RenderOverlays( Canvas );
+}
+
 defaultproperties
 {
 	 ItemName="Heal Link Gun"
@@ -15,6 +27,6 @@ defaultproperties
 	 FireModeClass(1)=HealLinkFire
 	 PickupClass=class'HealLinkGunPickup'
 	 
-	 AIRating=+0.60
-	 CurrentRating=+0.60
+	 AIRating=+0.55
+	 CurrentRating=+0.55
 }

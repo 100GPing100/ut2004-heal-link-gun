@@ -1,4 +1,4 @@
-This is the Heal Link Gun, it deals no damage, only heals vehicles, nodes and team mates.
+This is the Heal Link Gun Beta 3, it deals no damage, only heals vehicles, nodes and team mates.
 
 Copyright:
 Idea by: -Barionyx (Heal only vehicles and nodes and deal no damage);
@@ -11,7 +11,7 @@ Installation:
 mutator tab activate the one called "Heal Link Gun" and have fun.
 
 Archive:
-Name: HealLinkGunB2
+Name: HealLinkGunB3
 Folders: System; HealLinkGun.
 
 NOTE: YOU MAY REDISTRIBUTE THIS FILE, BUT YOU MAY NOT CHANGE THE .ZIP FILE AND YOU MAY 

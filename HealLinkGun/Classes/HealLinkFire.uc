@@ -7,6 +7,54 @@
 class HealLinkFire extends LinkFire;
 
 var() int HealingDamage;	//This int variable was added so it would heal with Damage set to 0.
+var() bool bSuperHeal;
+
+function bool IsLinkable(Actor Other)
+{
+    local Pawn P;
+    local LinkGun LG;
+    local LinkFire LF;
+    local int sanity;
+
+    if ( Other.IsA('Pawn') && Other.bProjTarget )
+    {
+        P = Pawn(Other);
+        if ( P.Weapon == None ) //if ( P.Weapon == None || !P.Weapon.IsA('LinkGun') )
+		{
+			if ( Vehicle(P) != None )
+				return P.TeamLink( Instigator.GetTeamNum() );
+
+            return true;
+		}
+
+        // pro-actively prevent link cycles from happening
+        LG = LinkGun(P.Weapon);
+        LF = LinkFire(LG.GetFireMode(1));
+        while ( LF != None && LF.LockedPawn != None && LF.LockedPawn != P && sanity < 32 )
+        {
+            if ( LF.LockedPawn == Instigator )
+                return false;
+
+            LG = LinkGun(LF.LockedPawn.Weapon);
+            if ( LG == None )
+                break;
+            LF = LinkFire(LG.GetFireMode(1));
+            sanity++;
+        }
+
+        return ( Level.Game.bTeamGame && P.GetTeamNum() == Instigator.GetTeamNum() );
+    }
+
+    return false;
+}
+
+function int GetHealMax(Pawn P)
+{
+	if (bSuperHeal)
+		return P.SuperHealthMax;
+
+	return P.HealthMax;
+}
 
 simulated function ModeTick(float dt)
 {
@@ -230,7 +278,7 @@ simulated function ModeTick(float dt)
                     {
                         if ( Level.Game.bTeamGame && Pawn(Other) != None && Pawn(Other).PlayerReplicationInfo != None
 							&& Pawn(Other).PlayerReplicationInfo.Team == Instigator.PlayerReplicationInfo.Team) // so even if friendly fire is on you can't hurt teammates
-                            AdjustedDamage = HealingDamage * (1.5*LinkGun.Links+1) * Instigator.DamageScaling;//AdjustedDamage = 0;
+                            AdjustedDamage = 0;
 
 						HealObjective = DestroyableObjective(Other);
 						if ( HealObjective == None )
@@ -261,6 +309,10 @@ simulated function ModeTick(float dt)
 				AdjustedDamage *= 2;
 			if (!LinkedVehicle.HealDamage(AdjustedDamage, Instigator.Controller, DamageType))
 				LinkGun.ConsumeAmmo(ThisModeNum, -AmmoPerFire);
+		}
+		if ( LockedPawn != None && bDoHit )
+		{
+			Pawn(Other).GiveHealth((HealingDamage / 4) *(1.5*Linkgun.Links+1) * instigator.DamageScaling, GetHealMax(Pawn(Other)));
 		}
 		LinkGun(Weapon).Linking = (LockedPawn != None) || bIsHealingObjective;
 
@@ -319,6 +371,16 @@ simulated function ModeTick(float dt)
     bStartFire = false;
     bDoHit = false;
 }
+/** For later AI Interface update for beeing able to heal team mates.
+function bool CanHeal(Actor Other)
+{
+	if (DestroyableObjective(Other) != None && DestroyableObjective(Other).LinkHealMult > 0)
+		return true;
+	if (Vehicle(Other) != None && Vehicle(Other).LinkHealMult > 0)
+		return true;
+
+	return false;
+}**/
 
 defaultproperties
 {
