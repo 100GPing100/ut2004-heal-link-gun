@@ -12,5 +12,5 @@ defaultproperties
 	 
 	 PickupMessage="You picked up some link heal charges."
 	 
-	 AmmoAmount=50
+	 AmmoAmount=0
 }

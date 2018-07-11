@@ -11,6 +11,6 @@ defaultproperties
 	 ItemName="Heal Link Ammo"
 	 
 	 PickupClass=class'HealLinkAmmoPickup'
-	 MaxAmmo=220
-	 InitialAmount=70
+	 MaxAmmo=1
+	 InitialAmount=1
 }

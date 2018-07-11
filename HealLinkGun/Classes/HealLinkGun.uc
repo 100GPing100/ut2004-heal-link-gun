@@ -26,6 +26,7 @@ defaultproperties
 	 FireModeClass(0)=HealLinkFire
 	 FireModeClass(1)=HealLinkFire
 	 PickupClass=class'HealLinkGunPickup'
+	 InventoryGroup=1
 	 
 	 AIRating=+0.55
 	 CurrentRating=+0.55

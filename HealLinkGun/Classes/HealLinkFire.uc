@@ -385,7 +385,7 @@ function bool CanHeal(Actor Other)
 defaultproperties
 {
 	 AmmoClass=class'HealLinkAmmo'
-	 AmmoPerFire=1
+	 AmmoPerFire=0
 	 DamageType=class"DamTypeHealLinkShaft"
 	 
 	 Damage=0			//Set to 0 so it does not deals any damage.
